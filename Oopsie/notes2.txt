@@ -1,0 +1,36 @@
+ > export IP = 10.10.10.28
+ 
+ OPEN PORTS:
+ > sudo nmap -sS -A 10.10.10.28
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+	| ssh-hostkey: 
+	|   2048 61:e4:3f:d4:1e:e2:b2:f1:0d:3c:ed:36:28:36:67:c7 (RSA)
+	|   256 24:1d:a4:17:d4:e3:2a:9c:90:5c:30:58:8f:60:77:8d (ECDSA)
+	|_  256 78:03:0e:b4:a1:af:e5:c2:f9:8d:29:05:3e:29:c9:f2 (ED25519)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+	|_http-server-header: Apache/2.4.29 (Ubuntu)
+	|_http-title: Welcome
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+
+AS WE CAN SEE THERE IS APACHE SERVER RUNNING ON PORT 80, AND OPEN SSH PORT 22. NOW
+WE WILL LOOK FOR ALL THE DIRECTORIES AT THE PORT 80 THAT COULD BE RUNNING.
+
+
+> gobuster dir -x "php, json, txt, html, css, xml, js" -u "http://$IP/" -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt 2> /dev/null
+
+/images               (Status: 301) [Size: 311] [--> http://10.10.10.28/images/]
+/index.php            (Status: 200) [Size: 10932]                               
+/themes               (Status: 301) [Size: 311] [--> http://10.10.10.28/themes/]
+/uploads              (Status: 301) [Size: 312] [--> http://10.10.10.28/uploads/]
+/css                  (Status: 301) [Size: 308] [--> http://10.10.10.28/css/]    
+/js                   (Status: 301) [Size: 307] [--> http://10.10.10.28/js/]     
+/fonts                (Status: 301) [Size: 310] [--> http://10.10.10.28/fonts/]  
+
+ON THE WEBPAGE ITSELF WE FOUND  admin@megacorp.com
+
+
+
+
